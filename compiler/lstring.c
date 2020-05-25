@@ -7,8 +7,6 @@
 
 #include "lstring.h"
 
-#if !defined HAVE_SAFESTR
-
 /*	$OpenBSD: strlcpy.c,v 1.10 2005/08/08 08:05:37 espie Exp $	*/
 
 /*
@@ -32,6 +30,7 @@
  */
 #include <string.h>   /* for strlen() */
 
+#if !defined(HAVE_STRLCPY)
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
  * will be copied.  Always NUL terminates (unless siz == 0).
@@ -62,6 +61,7 @@ strlcpy(char *dst, const char *src, size_t siz)
 
 	return(s - src - 1);	/* count does not include NUL */
 }
+#endif /* #if !defined(HAVE_STRLCPY) */
 
 /*	$OpenBSD: strlcat.c,v 1.13 2005/08/08 08:05:37 espie Exp $	*/
 
@@ -86,6 +86,7 @@ strlcpy(char *dst, const char *src, size_t siz)
   #include <string.h>       already included
 */
 
+#if !defined(HAVE_STRLCAT)
 /*
  * Appends src to string dst of size siz (unlike strncat, siz is the
  * full size of dst, not space left).  At most siz-1 characters
@@ -121,4 +122,4 @@ strlcat(char *dst, const char *src, size_t siz)
 	return(dlen + (s - src));	/* count does not include NUL */
 }
 
-#endif /* #if !defined HAVE_SAFESTR */
+#endif /* #if !defined(HAVE_STRLCAT) */
