@@ -51,10 +51,6 @@ IF(WIN32)
     LINK_LIBRARIES(winmm)
   ENDIF(NOT BORLAND)
 ENDIF(WIN32)
-IF(APPLE)
-  # OS X defaults to 64-bit build, but 64-bit issues prevent that being a good idea
-  SET(CMAKE_OSX_ARCHITECTURES "i386")
-ENDIF(APPLE)
 
 # --------------------------------------------------------------------------
 # Extension modules
