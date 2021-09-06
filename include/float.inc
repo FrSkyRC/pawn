@@ -9,91 +9,63 @@
  */
 #pragma library Float
 
-/* Different methods of rounding */
-const floatround_method: {
-  floatround_round = 0,
-  floatround_floor,
-  floatround_ceil,
-  floatround_tozero,
-  floatround_unbiased
-};
-const anglemode: {
-  radian = 0,
-  degrees,
-  grades
-};
-
 /**************************************************/
 /* Convert an integer into a floating point value */
-native Float:float(value);
-
-/**************************************************/
-/* Convert a string into a floating point value */
-native Float:strfloat(const string[]);
+native Float:float(value) = -1000;
 
 /**************************************************/
 /* Multiple two floats together */
-native Float:floatmul(Float:oper1, Float:oper2);
+native Float:fmulf(Float:oper1, Float:oper2) = -1002;
 
 /**************************************************/
 /* Divide the dividend float by the divisor float */
-native Float:floatdiv(Float:dividend, Float:divisor);
+native Float:fdivf(Float:dividend, Float:divisor) = -1003;
 
 /**************************************************/
 /* Add two floats together */
-native Float:floatadd(Float:oper1, Float:oper2);
+native Float:faddf(Float:oper1, Float:oper2) = -1004;
 
 /**************************************************/
 /* Subtract oper2 float from oper1 float */
-native Float:floatsub(Float:oper1, Float:oper2);
+native Float:fsubf(Float:oper1, Float:oper2) = -1005;
 
 /**************************************************/
 /* Return the fractional part of a float */
-native Float:floatfract(Float:value);
+native Float:floatfract(Float:value) = -1006;
 
 /**************************************************/
 /* Round a float into a integer value */
-native       floatround(Float:value, floatround_method:method=floatround_round);
+native       roundf(Float:value) = -1007;
 
 /**************************************************/
 /* Compare two integers. If the two elements are equal, return 0.
    If the first argument is greater than the second argument, return 1,
    If the first argument is less than the second argument, return -1. */
-native       floatcmp(Float:oper1, Float:oper2);
-
-/**************************************************/
-/* Return the square root of the input value, same as floatpower(value, 0.5) */
-native Float:floatsqroot(Float:value);
-
-/**************************************************/
-/* Return the value raised to the power of the exponent */
-native Float:floatpower(Float:value, Float:exponent);
-
-/**************************************************/
-/* Return the logarithm */
-native Float:floatlog(Float:value, Float:base=10.0);
+native       floatcmp(Float:oper1, Float:oper2) = -1008;
 
 /**************************************************/
 /* Return the sine, cosine or tangent. The input angle may be in radian,
    degrees or grades. */
-native Float:floatsin(Float:value, anglemode:mode=radian);
-native Float:floatcos(Float:value, anglemode:mode=radian);
-native Float:floattan(Float:value, anglemode:mode=radian);
+native Float:sinf(Float:value) = -1012;
+native Float:cosf(Float:value) = -1013;
+stock Float:tanf(Float:value) {
+    return sinf(value) / cosf(value);
+}
 
 /**************************************************/
 /* Return the absolute value */
-native Float:floatabs(Float:value);
+native Float:fabsf(Float:value) = -1015;
 
 
 /**************************************************/
 #pragma rational Float
 
 /* user defined operators */
-native Float:operator*(Float:oper1, Float:oper2) = floatmul;
-native Float:operator/(Float:oper1, Float:oper2) = floatdiv;
-native Float:operator+(Float:oper1, Float:oper2) = floatadd;
-native Float:operator-(Float:oper1, Float:oper2) = floatsub;
-native Float:operator=(oper) = float;
+native Float:operator*(Float:oper1, Float:oper2) = -1002; // Same as fmulf
+native Float:operator/(Float:oper1, Float:oper2) = -1003; // Same as fdivf
+native Float:operator+(Float:oper1, Float:oper2) = -1004; // Same as faddf
+native Float:operator-(Float:oper1, Float:oper2) = -1005; // Same as fsubf
+native Float:operator=(oper) = -1000; // Same as Float:float(value)
 
 stock Float:operator++(Float:oper)
     return oper+1.0;
@@ -105,22 +77,22 @@ stock Float:operator-(Float:oper)
     return oper^Float:cellmin;                  /* IEEE values are sign/magnitude */
 
 stock Float:operator*(Float:oper1, oper2)
-    return floatmul(oper1, float(oper2));       /* "*" is commutative */
+    return fmulf(oper1, float(oper2));       /* "*" is commutative */
 
 stock Float:operator/(Float:oper1, oper2)
-    return floatdiv(oper1, float(oper2));
+    return fdivf(oper1, float(oper2));
 
 stock Float:operator/(oper1, Float:oper2)
-    return floatdiv(float(oper1), oper2);
+    return fdivf(float(oper1), oper2);
 
 stock Float:operator+(Float:oper1, oper2)
-    return floatadd(oper1, float(oper2));       /* "+" is commutative */
+    return faddf(oper1, float(oper2));       /* "+" is commutative */
 
 stock Float:operator-(Float:oper1, oper2)
-    return floatsub(oper1, float(oper2));
+    return fsubf(oper1, float(oper2));
 
 stock Float:operator-(oper1, Float:oper2)
-    return floatsub(float(oper1), oper2);
+    return fsubf(float(oper1), oper2);
 
 stock bool:operator==(Float:oper1, Float:oper2)
     return floatcmp(oper1, oper2) == 0;
