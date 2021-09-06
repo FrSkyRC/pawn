@@ -1517,7 +1517,7 @@ static void setconfig(char *root)
   char *ptr,*base;
   size_t len;
 
-  #if defined macintosh
+  #if defined(macintosh) || defined(__APPLE__)
     /* on OS X, use argv[0] */
     getcwd(path,sizeof path);
   #elif defined __WIN32__ || defined _WIN32
