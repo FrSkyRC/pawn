@@ -1594,13 +1594,17 @@ static void setconfig(char *root)
     insert_path(path);
     /* same for the codepage root */
     #if !defined PAWN_NO_CODEPAGE
-      *ptr='\0';
+      if (ptr) {
+        *ptr='\0';
+      }
       if (!cp_path(path,"codepage"))
         error(109,path);        /* codepage path */
     #endif
     /* also copy the root path (for the XML documentation and target host files) */
     #if !defined PAWN_LIGHT
-      *ptr='\0';
+      if(ptr) {
+        *ptr='\0';
+      }
       strlcpy(sc_rootpath,path,sizeof sc_rootpath);
     #endif
   } /* if */
